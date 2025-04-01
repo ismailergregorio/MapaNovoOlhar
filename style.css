@@ -8,13 +8,13 @@ body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
   height: 100vh;
 }
 #base_cima{
-  position: absolute;
+  position: relative;
   z-index: 1;
   display: flex;
-  width: 100%;
+  width: 94%;
   justify-content: space-between;
   align-items: center;
-  margin: 10px  100px 10px 50px;
+  margin: 15px 100px 10px 70px;
 }
 
 /* CSS Bara de pesquisa */
@@ -80,13 +80,34 @@ body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 .menu-container{
   position: absolute;
   z-index: 11;
+  display: flex;
+  /* max-width: 300px; */
+  width: 0px;
 }
 
 #mn{
-  height: 46px;
+  position: relative;
+  right: 0px;
   padding: 4px;
   margin: 5px 0px;
   border-radius: 50px;
+  background-color: #858080;
+  width: 46px;
+  height: 46px;
+  margin: 10px;
+}
+
+#menu_maximo{
+  display: none;
+  flex-direction: column; /* Organiza os itens verticalmente */
+  justify-content: space-between; /* Distribui os itens no início, meio e final */
+  width: 300px;
+  height: 100vh; /* Ocupar toda a altura da tela */
+  background-color: white;
+}
+
+#titulo_Lista_itens{
+  display: block;
 }
 
 .menu-btn {
@@ -127,15 +148,6 @@ body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 .show {
   display: block;
 }
-#menu_maximo{
-  display: none;
-  flex-direction: column; /* Organiza os itens verticalmente */
-  justify-content: space-between; /* Distribui os itens no início, meio e final */
-  width: 0px;
-  height: 100vh; /* Ocupar toda a altura da tela */
-  background-color: white;
-  padding: 10px; /* Para não colar os itens nas bordas */
-}
 
 .lista_itens a {
   display: block;
@@ -173,19 +185,15 @@ a:hover{
   justify-content: center;
   font-size: 7px;
 }
+#combo_perfil, #combo_sua_lista, #combo_sua_historico{
+  display: none;
+}
 #final a{
   display: block;
   padding: 10px;
   text-decoration: none;
   color: black;
   transition: 0.3s;
-}
-
-#combo_sua_historico{
-  display: none;
-}
-#combo_sua_lista{
-  display: none;
 }
 
 
@@ -235,21 +243,49 @@ a:hover{
 }
 
 @media (max-width: 380px) {
-  
-}
+  .menu-container{
+    position: absolute;
+    z-index: 11;
+    display: flex;
+    bottom: 0px;
+    /* max-width: 300px; */
+    width: 100%;
+    background-color: #f1f1f1;
+  }
+  #mn{
+    position: relative;
+    right: 0px;
+    padding: 4px;
+    margin: 5px 0px;
+    border-radius: 50px;
+    background-color: #858080;
+    width: 46px;
+    height: 46px;
+    margin: 10px;
+  }
+  #base_cima{margin: 0; padding: 0; height: 100%; overflow: hidden;}
 
-@media (max-width: 800px) {
   #base_cima{
     position: absolute;
-    z-index: 1;
+    z-index: 100;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* @media (max-width: 800px) {
+  #base_cima{
+    position: absolute;
+    z-index: 100;
     display: block;
     width: 100%;
     align-items: center;
     /* justify-content: space-between; */
   }
-}
+} */
 
 
 @media (min-width: 1024px) {
 }
-

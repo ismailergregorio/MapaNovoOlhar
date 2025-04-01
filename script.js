@@ -32,127 +32,116 @@ L.marker([-20.294915659067243, -40.347506360915474]).addTo(map)
     autoPan: true
     // .openPopup();
 
-
+let status_menu = false;
 
 function clikMenu() {
-    let mn = document.getElementById("mn"); // Certifique-se de que existe um elemento com id="mn"
-    let menu_m = document.getElementById("menu");
+    let timeout = 2;  // Tempo mais adequado para o delay em milissegundos
+    let btn_menu_vertical = document.getElementById("mn");
+    let btns_menu_vertical_interno = document.getElementById("menu")
 
-    let menu = document.getElementById("menu_maximo"); // Certifique-se de que existe um elemento com id="mn"
-    let lista_salvar = document.getElementById("combo_sua_lista");
-    let lista_historico = document.getElementById("combo_sua_historico")
-    
-    if (mn.style.height === "46px" || mn.style.height === "") {
-        for (let index = 46; index <= 260; index++) {
+    // Pega a altura atual do elemento
+    const altura = window.getComputedStyle(btn_menu_vertical).height;
+
+    // Caso a altura seja 46px (fechado)
+    if (altura == "46px") {
+        for (let index = 46; index <= 300; index++) {
+            // Usamos setTimeout com a variável "index"
             setTimeout(() => {
-                mn.style.height = index + "px";
-            }, (index - 46) * 1); // Ajuste no tempo para suavizar a animação
+                btn_menu_vertical.style.height = index + "px"; 
+                if (index == 300) {// abri botoes internos
+                    btns_menu_vertical_interno.style.display = "block";
+                }
+            }, (index - 46) * timeout); // Calcula o delay baseado na iteração
+
         }
-        menu_m.style.display = "block";
-    } else {
-        menu_m.style.display = "none";
-        for (let index = 260; index >= 46; index--) {
+        status_menu = true;
+    } else {  // Caso contrário, vai diminuir a altura
+        for (let index = 300; index >= 46; index--) {
+            // Usamos setTimeout com a variável "index"
             setTimeout(() => {
-                mn.style.height = index + "px";
-            }, (260 - index) * 1);
+                btn_menu_vertical.style.height = index + "px";
+                if (index == 300 || index != 300) {// fecha botoes internos
+                    btns_menu_vertical_interno.style.display = "none";
+                }
+            }, (300 - index) * timeout);  // Calcula o delay baseado na iteração
         }
+
+        let menu_horizontal = document.getElementById("menu-container");
+        let menu_lista_interna = document.getElementById("menu_maximo");
+        let icone_menu = document.getElementById("mn");
 
         for (let index = 300; index >= 0; index--) {
+            // Usamos setTimeout com a variável "index"
             setTimeout(() => {
-                menu.style.width = index + "px";
-            }, (300 - index) * 1);
-        }
-        lista_historico.style.display = "none"
-        lista_salvar.style.display = "none"
-        menu.style.display = "none";
-    }
+                menu_horizontal.style.width = index + "px";
+                menu_lista_interna.style.width = index + "px";
+                if (index == 300) {// abri botoes internos
+                    menu_lista_interna.style.display = "none"
+                    icone_menu.style.right = "0px"
+                }
+            }, (300 - index) * timeout); // Calcula o delay baseado na iteração
 
+        }
+    }
 }
 
-function clikPerfio(){
-    let menu = document.getElementById("menu_maximo"); // Certifique-se de que existe um elemento com id="mn"
-    // let lista_salvar = document.getElementById(lista);
-    menu.style.display = "flex"
-    // lista_salvar.style.display = "block"
-    if (menu.style.width === "0px" || menu.style.width === "") {
+function click_Itens_Menu(btn) {
+    let timeout = 2;  // Tempo mais adequado para o delay em milissegundos
+    // Obtenha o botão clicado usando o ID passado como argumento
+    let btn_clicado = document.getElementById(btn);
+
+    // Obtenha o menu horizontal
+    let menu_horizontal = document.getElementById("menu-container");
+    let menu_lista_interna = document.getElementById("menu_maximo");
+    let icone_menu = document.getElementById("mn");
+
+    // Obtenha a largura do menu horizontal através do estilo computado
+    const largura = window.getComputedStyle(menu_horizontal).width;
+
+    // Defina os menus individuais
+    let menu_perfil = document.getElementById("combo_perfil"); // Corrigido "menu_perfio" para "menu_perfil"
+    let menu_salvos = document.getElementById("combo_sua_lista");
+    let menu_historico = document.getElementById("combo_sua_historico");
+
+    // Se a largura do menu for "0px", significa que ele está fechado, então abre
+    if (largura === "0px") {
         for (let index = 0; index <= 300; index++) {
+            // Usamos setTimeout com a variável "index"
             setTimeout(() => {
-                menu.style.width = index + "px";
-            }, (index - 0) * 1); // Ajuste no tempo para suavizar a animação
+                menu_horizontal.style.width = index + "px";
+                menu_lista_interna.style.width = index + "px";
+                if (index == 300) {// abri botoes internos
+                    menu_lista_interna.style.display = "flex"
+                    icone_menu.style.right = "27px"
+                }
+            }, (index - 46) * timeout); // Calcula o delay baseado na iteração
+
         }
-    }else {
-        for (let index = 300; index >= 0; index--) {
-            setTimeout(() => {
-                menu.style.width = index + "px";
-            }, (300 - index) * 1);
-        }
-        
-        menu.style.display = "none";
+        status_menu = true;
     }
+
+    // Verifique a ação do botão clicado usando o switch
+    switch (btn) {
+        case "perfil":
+            console.log("Botão Perfil Clicado", btn_clicado);
+            menu_perfil.style.display = "block"
+            menu_salvos.style.display = "none"
+            menu_historico.style.display = "none"
+            break;
+        case "salvar":
+            console.log("Botão Salvar Clicado", btn_clicado);
+            menu_perfil.style.display = "none"
+            menu_salvos.style.display = "block"
+            menu_historico.style.display = "none"
+            break;
+        case "historico":
+            console.log("Botão Histórico Clicado", btn_clicado);
+            menu_perfil.style.display = "none"
+            menu_salvos.style.display = "none"
+            menu_historico.style.display = "block"
+            break;
+        default:
+            console.log("Botão desconhecido clicado", btn_clicado);
+            break;
+    }    
 }
-
-function clikSalvar(){
-    let menu = document.getElementById("menu_maximo"); // Certifique-se de que existe um elemento com id="mn"
-    let lista_salvar = document.getElementById("combo_sua_lista");
-    let lista_historico = document.getElementById("combo_sua_historico")
-    menu.style.display = "flex"
-    // lista_salvar.style.display = "block"
-
-    if (menu.style.width === "300px"){
-        lista_historico.style.display = "none"
-        lista_salvar.style.display = "block"
-    }else{
-        if (menu.style.width === "0px" || menu.style.width === "") {
-            for (let index = 0; index <= 300; index++) {
-                setTimeout(() => {
-                    menu.style.width = index + "px";
-                }, (index - 0) * 1); // Ajuste no tempo para suavizar a animação
-            }
-            lista_historico.style.display = "none"
-            lista_salvar.style.display = "block"
-        }else {
-            for (let index = 300; index >= 0; index--) {
-                setTimeout(() => {
-                    menu.style.width = index + "px";
-                }, (300 - index) * 1);
-            }
-            lista_historico.style.display = "none"
-            lista_salvar.style.display = "none"
-            menu.style.display = "none";
-        }
-    }
-}
-
-function clikHistorico(){
-    let menu = document.getElementById("menu_maximo"); // Certifique-se de que existe um elemento com id="mn"
-    let lista_salvar = document.getElementById("combo_sua_lista");
-    let lista_historico = document.getElementById("combo_sua_historico")
-    menu.style.display = "flex"
-    // lista_salvar.style.display = "block"
-
-    if (menu.style.width === "300px"){
-        lista_historico.style.display = "block"
-        lista_salvar.style.display = "none"
-    }else{
-        if (menu.style.width === "0px" || menu.style.width === "") {
-            for (let index = 0; index <= 300; index++) {
-                setTimeout(() => {
-                    menu.style.width = index + "px";
-                }, (index - 0) * 1); // Ajuste no tempo para suavizar a animação
-            }
-            lista_historico.style.display = "blovk"
-            lista_salvar.style.display = "none"
-        }else {
-            for (let index = 300; index >= 0; index--) {
-                setTimeout(() => {
-                    menu.style.width = index + "px";
-                }, (300 - index) * 1);
-            }
-            lista_historico.style.display = "none"
-            lista_salvar.style.display = "none"
-            menu.style.display = "none";
-        }
-    }
-}
-
-// clikMenulista()
